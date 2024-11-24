@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-top: 0;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group textarea {
+            height: 100px;
+        }
+        .form-group select option {
+            padding: 8px;
+        }
+        .btn-submit {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-submit:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <form id="student-form">
+        <h2>Formulário do Aluno</h2>
+        <div class="form-group">
+            <label for="nome">Nome do Aluno:</label>
+            <input type="text" id="nome" name="nome" required>
+        </div>
+        <div class="form-group">
+            <label for="matricula">Número da Matrícula:</label>
+            <input type="text" id="matricula" name="matricula" required>
+        </div>
+        <div class="form-group">
+            <label for="curso">Curso:</label>
+            <input type="text" id="curso" name="curso" required>
+        </div>
+        <div class="form-group">
+            <label for="disciplina">Nome da Disciplina:</label>
+            <input type="text" id="disciplina" name="disciplina" required>
+        </div>
+        <div class="form-group">
+            <label for="codigo-turma">Código da Turma:</label>
+            <input type="text" id="codigo-turma" name="codigo-turma" required>
+        </div>
+        <div class="form-group">
+            <label for="prova">Prova de:</label>
+            <select id="prova" name="prova" required>
+                <option value="1 chamada de 1GQ">1 chamada de 1GQ</option>
+                <option value="2 chamada de 1GQ">2 chamada de 1GQ</option>
+                <option value="1 chamada de 2GQ">1 chamada de 2GQ</option>
+                <option value="2 chamada de 2GQ">2 chamada de 2GQ</option>
+                <option value="Exame final">Exame final</option>
+                <option value="Unica avaliação">Unica avaliação</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="horario">Horário da Disciplina:</label>
+            <input type="text" id="horario" name="horario" required>
+        </div>
+        <div class="form-group">
+            <label for="professor">Professor:</label>
+            <select id="professor" name="professor" required>
+                <option value="">Selecione um professor</option>
+                <option value="AUGUSTO CESAR FERREIRA DE MIRANDA OLIVEIRA">AUGUSTO CESAR FERREIRA DE MIRANDA OLIVEIRA</option>
+                <option value="ASSIS TIAGO DE OLIVEIRA FILHO">ASSIS TIAGO DE OLIVEIRA FILHO</option>
+                <option value="ALEXANDRE SOARES RAMOS">ALEXANDRE SOARES RAMOS</option>
+                <option value="ANA ELIZA LOPES MOURA">ANA ELIZA LOPES MOURA</option>
+                <option value="CEZAR AUGUSTO CERQUEIRA">CEZAR AUGUSTO CERQUEIRA</option>
+                <option value="DIEGO MARCONI PINHEIRO FERREIRA SILVA">DIEGO MARCONI PINHEIRO FERREIRA SILVA</option>
+                <option value="EMMANUEL BARRETO DE CARVALHO">EMMANUEL BARRETO DE CARVALHO</option>
+                <option value="FELIPE FERNANDO ANGELO BARRETO">FELIPE FERNANDO ANGELO BARRETO</option>
+                <option value="FRANCISCO MADEIRO BERNARDINO JUNIOR">FRANCISCO MADEIRO BERNARDINO JUNIOR</option>
+                <option value="GABRIEL FERNANDES DE ALMEIDA">GABRIEL FERNANDES DE ALMEIDA</option>
+                <option value="GIBSON BELARMINO NUNES BARBOSA">GIBSON BELARMINO NUNES BARBOSA</option>
+                <option value="IVNA CRISTINE BRASILEIROVALENÇA DE OLIVEIRA">IVNA CRISTINE BRASILEIROVALENÇA DE OLIVEIRA</option>
+                <option value="IZABELLY CRISTINA NASCIMENTO SILVA">IZABELLY CRISTINA NASCIMENTO SILVA</option>
+                <option value="JHEYMESSON APOLINÁRIO CAVALCANTI">JHEYMESSON APOLINÁRIO CAVALCANTI</option>
+                <option value="JULIO CESAR SILVA ALEIXO">JULIO CESAR SILVA ALEIXO</option>
+                <option value="LEONARDO BRUNO FERREIRA DE SOUZA">LEONARDO BRUNO FERREIRA DE SOUZA</option>
+                <option value="LEONARDO MACHADO CAVALCANTI">LEONARDO MACHADO CAVALCANTI</option>
+                <option value="LILIANE SHEYLA SILVA FONSECA">LILIANE SHEYLA SILVA FONSECA</option>
+                <option value="LUCAS RODOLFO CELESTINO DE FARIAS">LUCAS RODOLFO CELESTINO DE FARIAS</option>
+                <option value="MÁRCIO AUGUSTO SILVA BUENO">MÁRCIO AUGUSTO SILVA BUENO</option>
+                <option value="MARCOS JOSÉ CANEJO DE AZEVEDO">MARCOS JOSÉ CANEJO DE AZEVEDO</option>
+                <option value="PEDRO HENRIQUE MEIRA DE ARAÚJO">PEDRO HENRIQUE MEIRA DE ARAÚJO</option>
+                <option value="RODRIGO DE PAULA MONTEIRO">RODRIGO DE PAULA MONTEIRO</option>
+                <option value="ROBSON CAVALCANTI LINS">ROBSON CAVALCANTI LINS</option>
+                <option value="SÉRGIO MURILO MACIEL FERNANDES">SÉRGIO MURILO MACIEL FERNANDES</option>
+                <option value="VICENTE FRANCISCO DE SOUZA NETO">VICENTE FRANCISCO DE SOUZA NETO</option>
+                <option value="WILMER YECID CORDOBA CAMACHO">WILMER YECID CORDOBA CAMACHO</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="motivo">Motivo:</label>
+            <input type="text" id="motivo" name="motivo" required>
+        </div>
+        <div class="form-group">
+            <label for="observacao">Observação do Aluno:</label>
+            <textarea id="observacao" name="observacao" required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Enviar</button>
+    </form>
+
+    <script>
+        document.getElementById('student-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = {
+                matricula: document.getElementById('matricula').value,
+                nome: document.getElementById('nome').value,
+                curso: document.getElementById('curso').value,
+                disciplina: document.getElementById('disciplina').value,
+                codigoTurma: document.getElementById('codigo-turma').value,
+                prova: document.getElementById('prova').value,
+                horario: document.getElementById('horario').value,
+                professor: document.getElementById('professor').value,
+                motivo: document.getElementById('motivo').value,
+                observacao: document.getElementById('observacao').value
+            };
+
+            fetch('/gerar-pdf', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.blob();
+                } else {
+                    throw new Error('Erro ao gerar PDF');
+                }
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'formulario.pdf';
+                a.click();
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
+        });
+    </script>
+</body>
+</html>
