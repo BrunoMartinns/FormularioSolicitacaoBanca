@@ -141,7 +141,55 @@ public class FormularioService {
         table3.addCell(new Paragraph("Código / turma:", fontBold));
         document.add(table3);
         // ------------------------------------------------------------------------------------------------------//
-       
+        document.add(new Paragraph("   "));
+
+        // INICIO DA QUARTA TABELA 
+
+        PdfPTable table4 = new PdfPTable(3);
+        float[] columnWidths4 = {2f, 3f, 2f};
+        table4.setWidths(columnWidths4);
+        table4.setWidthPercentage(113);
+
+        PdfPCell cabecalho = new PdfPCell(new Paragraph("Prova de:", fontBold));
+        cabecalho.addElement(new Paragraph("Prova de:", fontBold));
+        cabecalho.addElement(new Paragraph(" ____      1ª Chamada de 1GQ", font8));
+        cabecalho.addElement(new Paragraph(" ____      2ª Chamada de 1GQ", font8));
+        cabecalho.addElement(new Paragraph(" ____      1ª Chamada de 2GQ", font8));
+        cabecalho.addElement(new Paragraph(" ____      2ª Chamada de 2GQ", font8));
+        cabecalho.addElement(new Paragraph(" ____      Exame Final", font8));
+        cabecalho.addElement(new Paragraph(" ____      Única Avaliação", font8));
+        cabecalho.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cabecalho.setRowspan(3);
+
+        table4.addCell(cabecalho);
+
+        PdfPCell horarioDisciplina = new PdfPCell(new Paragraph());
+        horarioDisciplina.addElement(new Paragraph("Horário da disciplina: \n", font10));
+        horarioDisciplina.addElement(new Paragraph("  "));
+        horarioDisciplina.setRowspan(1);
+
+        PdfPCell obs = new PdfPCell(new Paragraph("Observação do aluno:", font10));
+        obs.setRowspan(3);
+
+        PdfPCell professor = new PdfPCell(new Paragraph(""));
+        professor.addElement(new Paragraph("Professor: \n", font10));
+        professor.addElement(new Paragraph("  "));
+        professor.setRowspan(1);
+
+        PdfPCell motivo = new PdfPCell(new Paragraph(""));
+        motivo.addElement(new Paragraph("Motivo: \n", font10));
+        motivo.addElement(new Paragraph("  "));
+        motivo.setRowspan(1);
+
+        table4.addCell(horarioDisciplina);
+        table4.addCell(obs);
+        table4.addCell(professor);
+        table4.addCell(motivo);
+
+        document.add(table4);
+
+        // **************************************************************************************
+        
         document.add(new Paragraph("   "));
         // INICIO DA QUINTA TABELA:
 
@@ -171,6 +219,12 @@ public class FormularioService {
         // ------------------------------------------------------------------------------------------------------//
 
         document.add(new Paragraph("   "));
+
+        PdfPTable table7 = new PdfPTable(1);
+        float[] columnWidths7 = {1f};
+        table6.setWidths(columnWidths7);
+        table6.setWidthPercentage(113);
+
 
         // Fechar o documento
         document.close();
