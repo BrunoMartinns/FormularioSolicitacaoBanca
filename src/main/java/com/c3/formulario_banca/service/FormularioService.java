@@ -9,6 +9,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.nio.file.Paths;
 
 @Service
 public class FormularioService {
@@ -94,14 +96,23 @@ public class FormularioService {
         cell2.setColspan(1);
 
         table1.addCell(cell2);
-        table1.addCell(titulo2);
-        document.add(table1);
 
         // ------------------------------------------------------------------------------------------------------//
         
         // terceira coluna:
 
-            // ******************* foto aqui ***************************
+        InputStream imagemStream = getClass().getClassLoader().getResourceAsStream("static/imagens/Imagem2.jpg");
+
+        byte[] imagemBytes = imagemStream.readAllBytes();
+        Image imagem = Image.getInstance(imagemBytes);
+        imagem.scaleToFit(190, 190);
+
+        PdfPCell celulaComImagem = new PdfPCell(imagem);
+        celulaComImagem.setHorizontalAlignment(Element.ALIGN_CENTER); // Centraliza horizontalmente
+        celulaComImagem.setVerticalAlignment(Element.ALIGN_MIDDLE);   // Centraliza verticalmente
+        table1.addCell(celulaComImagem);
+
+        document.add(table1);
 
         // ------------------------------------------------------------------------------------------------------//
        
@@ -114,11 +125,19 @@ public class FormularioService {
         table2.setWidths(columnWidths2);
         table2.setWidthPercentage(113);
 
-        PdfPCell cell1table2 = new PdfPCell(new Paragraph("Numero de Matricula:", fontBold));
+        Paragraph paragraphMatricula = new Paragraph();
+        paragraphMatricula.add(new Chunk("Numero de Matricula: ", fontBold));
+        paragraphMatricula.add(new Chunk(formulario.getMatricula(), font10));
+
+        PdfPCell cell1table2 = new PdfPCell(paragraphMatricula);
         cell1table2.setPadding(5f); // Ajuste na espessura da borda
         cell1table2.setHorizontalAlignment(PdfPCell.ALIGN_LEFT); // Alinhamento do texto
 
-        PdfPCell cell2table2 = new PdfPCell(new Paragraph("Nome do aluno:", fontBold));
+        Paragraph paragraphNomeAluno = new Paragraph();
+        paragraphNomeAluno.add(new Chunk("Nome do aluno: ", fontBold));
+        paragraphNomeAluno.add(new Chunk(formulario.getNome(), font10));
+
+        PdfPCell cell2table2 = new PdfPCell(paragraphNomeAluno);
         cell2table2.setPadding(5f); // Ajuste na espessura da borda
         cell2table2.setHorizontalAlignment(PdfPCell.ALIGN_LEFT); // Alinhamento do texto
 
@@ -136,9 +155,21 @@ public class FormularioService {
         table3.setWidths(columnWidths3);
         table3.setWidthPercentage(113);
 
-        table3.addCell(new Paragraph("Curso:", fontBold));
-        table3.addCell(new Paragraph("Nome da disciplina:", fontBold));
-        table3.addCell(new Paragraph("Código / turma:", fontBold));
+        Paragraph paragraphCurso = new Paragraph();
+        paragraphCurso.add(new Chunk("Curso: ", fontBold));
+        paragraphCurso.add(new Chunk(formulario.getCurso(), font10));
+
+        Paragraph paragraphNomeDisciplina = new Paragraph();
+        paragraphNomeDisciplina.add(new Chunk("Nome da disciplina: ", fontBold));
+        paragraphNomeDisciplina.add(new Chunk(formulario.getDisciplina(), font10));
+
+        Paragraph paragraphTurma = new Paragraph();
+        paragraphTurma.add(new Chunk("Código / turma: ", fontBold));
+        paragraphTurma.add(new Chunk(formulario.getCodigoTurma(), font10));
+
+        table3.addCell(new Paragraph(paragraphCurso));
+        table3.addCell(new Paragraph(paragraphNomeDisciplina));
+        table3.addCell(new Paragraph(paragraphTurma));
         document.add(table3);
         // ------------------------------------------------------------------------------------------------------//
         document.add(new Paragraph("   "));
@@ -150,34 +181,85 @@ public class FormularioService {
         table4.setWidths(columnWidths4);
         table4.setWidthPercentage(113);
 
+        String campoProva = formulario.getProva();
+
         PdfPCell cabecalho = new PdfPCell(new Paragraph("Prova de:", fontBold));
         cabecalho.addElement(new Paragraph("Prova de:", fontBold));
-        cabecalho.addElement(new Paragraph(" ____      1ª Chamada de 1GQ", font8));
-        cabecalho.addElement(new Paragraph(" ____      2ª Chamada de 1GQ", font8));
-        cabecalho.addElement(new Paragraph(" ____      1ª Chamada de 2GQ", font8));
-        cabecalho.addElement(new Paragraph(" ____      2ª Chamada de 2GQ", font8));
-        cabecalho.addElement(new Paragraph(" ____      Exame Final", font8));
-        cabecalho.addElement(new Paragraph(" ____      Única Avaliação", font8));
+
+        if(campoProva.equals("1 chamada de 1GQ")){
+            cabecalho.addElement(new Paragraph("   x       1ª Chamada de 1GQ", font8));
+        } else {
+            cabecalho.addElement(new Paragraph(" ____      1ª Chamada de 1GQ", font8));
+        }
+
+        if(campoProva.equals("2 chamada de 1GQ")){
+            cabecalho.addElement(new Paragraph("   x       2ª Chamada de 1GQ", font8));
+        } else {
+            cabecalho.addElement(new Paragraph(" ____      2ª Chamada de 1GQ", font8));
+        }
+        
+        if(campoProva.equals("1 chamada de 2GQ")){
+            cabecalho.addElement(new Paragraph("   x       1ª Chamada de 2GQ", font8));
+        } else {
+            cabecalho.addElement(new Paragraph(" ____      1ª Chamada de 2GQ", font8));
+        }
+
+        if(campoProva.equals("2 chamada de 2GQ")){
+            cabecalho.addElement(new Paragraph("   x       2ª Chamada de 2GQ", font8));
+        } else {
+            cabecalho.addElement(new Paragraph(" ____      2ª Chamada de 2GQ", font8));
+        }
+
+        if(campoProva.equals("Exame Final")){
+            cabecalho.addElement(new Paragraph("   x       Exame Final", font8));
+        } else {
+            cabecalho.addElement(new Paragraph(" ____      Exame Final", font8));
+        }
+
+        if(campoProva.equals("Única Avaliação")){
+            cabecalho.addElement(new Paragraph("   x       Única Avaliação", font8));
+        } else {
+            cabecalho.addElement(new Paragraph(" ____      Única Avaliação", font8));
+        }
+        
         cabecalho.setHorizontalAlignment(Element.ALIGN_CENTER);
         cabecalho.setRowspan(3);
 
         table4.addCell(cabecalho);
 
-        PdfPCell horarioDisciplina = new PdfPCell(new Paragraph());
-        horarioDisciplina.addElement(new Paragraph("Horário da disciplina: \n", font10));
+
+        Paragraph paragraphHorarioDisciplina = new Paragraph();
+        paragraphHorarioDisciplina.add(new Chunk("Horário da disciplina: ", fontBold));
+        paragraphHorarioDisciplina.add(new Chunk(formulario.getHorario(), font10));
+        
+
+        PdfPCell horarioDisciplina = new PdfPCell(paragraphHorarioDisciplina);
+        horarioDisciplina.addElement(new Paragraph(paragraphHorarioDisciplina));
         horarioDisciplina.addElement(new Paragraph("  "));
         horarioDisciplina.setRowspan(1);
 
-        PdfPCell obs = new PdfPCell(new Paragraph("Observação do aluno:", font10));
+        Paragraph paragraphObservacaoAluno = new Paragraph();
+        paragraphObservacaoAluno.add(new Chunk("Observação do aluno: ", fontBold));
+        paragraphObservacaoAluno.add(new Chunk(formulario.getObservacao(), font10));
+
+        PdfPCell obs = new PdfPCell(new Paragraph(paragraphObservacaoAluno));
         obs.setRowspan(3);
 
-        PdfPCell professor = new PdfPCell(new Paragraph(""));
-        professor.addElement(new Paragraph("Professor: \n", font10));
+        Paragraph paragraphProfessor = new Paragraph();
+        paragraphProfessor.add(new Chunk("Professor: ", fontBold));
+        paragraphProfessor.add(new Chunk(formulario.getProfessor(), font10));
+
+        PdfPCell professor = new PdfPCell(paragraphProfessor);
+        professor.addElement(new Paragraph(paragraphProfessor));
         professor.addElement(new Paragraph("  "));
         professor.setRowspan(1);
 
-        PdfPCell motivo = new PdfPCell(new Paragraph(""));
-        motivo.addElement(new Paragraph("Motivo: \n", font10));
+        Paragraph paragraphMotivo= new Paragraph();
+        paragraphMotivo.add(new Chunk("Motivo: ", fontBold));
+        paragraphMotivo.add(new Chunk(formulario.getMotivo(), font10));
+
+        PdfPCell motivo = new PdfPCell(paragraphMotivo);
+        motivo.addElement(new Paragraph(paragraphMotivo));
         motivo.addElement(new Paragraph("  "));
         motivo.setRowspan(1);
 
@@ -194,12 +276,18 @@ public class FormularioService {
         // INICIO DA QUINTA TABELA:
 
         PdfPTable table5 = new PdfPTable(2);
-        float[] columnWidths5 = {2f, 1f};
+        float[] columnWidths5 = {1f, 1f};
         table5.setWidths(columnWidths5);
         table5.setWidthPercentage(113);
 
-        table5.addCell(new Paragraph("Ao sr. professor:", fontBold));
-        table5.addCell(new Paragraph("Funcionário responsável:", fontBold));
+        PdfPCell srProfessor = new PdfPCell(new Paragraph("Ao sr. professor:", fontBold));
+        srProfessor.setPadding(5);
+        PdfPCell funcionarioResponsavel = new PdfPCell(new Paragraph("Funcionário responsável:", fontBold));
+        funcionarioResponsavel.setPadding(5);
+
+        table5.addCell(srProfessor);
+        table5.addCell(funcionarioResponsavel);
+
         document.add(table5);
 
         // ------------------------------------------------------------------------------------------------------//
@@ -211,9 +299,16 @@ public class FormularioService {
         table6.setWidths(columnWidths6);
         table6.setWidthPercentage(113);
 
-        table6.addCell(new Paragraph("Data:", fontBold));
-        table6.addCell(new Paragraph("Data da realização da prova:", fontBold));
-        table6.addCell(new Paragraph("Data da divulgação da nota:", fontBold));
+        PdfPCell data6 = new PdfPCell(new Paragraph("Data:", fontBold));
+        data6.setPadding(5);
+        PdfPCell dataRealizacao = new PdfPCell(new Paragraph("Data da realização da prova:", fontBold));
+        dataRealizacao.setPadding(5);
+        PdfPCell dataDivulgacaoNota = new PdfPCell(new Paragraph("Data da divulgação da nota:", fontBold));
+        dataDivulgacaoNota.setPadding(5);
+
+        table6.addCell(data6);
+        table6.addCell(dataRealizacao);
+        table6.addCell(dataDivulgacaoNota);
         document.add(table6);
 
         // ------------------------------------------------------------------------------------------------------//
@@ -222,9 +317,131 @@ public class FormularioService {
 
         PdfPTable table7 = new PdfPTable(1);
         float[] columnWidths7 = {1f};
-        table6.setWidths(columnWidths7);
-        table6.setWidthPercentage(113);
+        table7.setWidths(columnWidths7);
+        table7.setWidthPercentage(113);
+        
+        PdfPCell cell = new PdfPCell(new Paragraph("Avaliação do professor (os comentários poderão ser feitos no próprio corpo da prova ou à parte):", fontBold));
+        cell.setBorder(Rectangle.BOX); // Mantém as bordas (ou você pode usar Rectangle.NO_BORDER para removê-las)
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT); // Alinha o texto à esquerda
+        cell.setVerticalAlignment(Element.ALIGN_TOP); // Alinha o texto no topo da célula
+        cell.setMinimumHeight(80f); // Define a altura mínima da célula
 
+        // Adiciona a célula à tabela
+        table7.addCell(cell);
+        document.add(table7);
+
+        // ---------------------------------------------------------//
+
+        //TABELA 8:
+
+        PdfPTable table8 = new PdfPTable(3);
+        float[] columnWidths8 = {1f, 1f, 1f};
+        table8.setWidths(columnWidths8);
+        table8.setWidthPercentage(113);
+
+        PdfPCell conclusao = new PdfPCell(new Paragraph());
+        conclusao.addElement(new Paragraph("Conclusao: \n", fontBold));
+        conclusao.setRowspan(2);
+
+        PdfPCell notaMantida = new PdfPCell(new Paragraph("Nota Mantida.", fontBold));
+        notaMantida.setPadding(5);
+        PdfPCell data = new PdfPCell(new Paragraph("Data:", fontBold));
+        data.setPadding(5);
+        PdfPCell notaAlterada = new PdfPCell(new Paragraph("Nota alterada para:", fontBold));
+        notaAlterada.setPadding(5);
+        PdfPCell professorResponsavel = new PdfPCell(new Paragraph("Professor responsável:", fontBold));
+        professorResponsavel.setPadding(5);
+
+        table8.addCell(conclusao);
+        table8.addCell(notaMantida);
+        table8.addCell(data);
+        table8.addCell(notaAlterada);
+        table8.addCell(professorResponsavel);
+
+
+        document.add(table8);
+
+        // ----------------------------------------------------------------------------------//
+        document.add(new Paragraph("   "));
+
+        //TABELA 9
+
+        PdfPTable table9 = new PdfPTable(3);
+        float[] columnWidths9 = {1f, 1f, 1f};
+        table9.setWidths(columnWidths9);
+        table9.setWidthPercentage(113);
+
+        PdfPCell serdae = new PdfPCell(new Paragraph("Ao SERDAE:", fontBold));
+        serdae.setPadding(5);
+        PdfPCell deSerdae = new PdfPCell(new Paragraph("DE:", fontBold));
+        deSerdae.setPadding(5);
+        PdfPCell dataSerdae = new PdfPCell(new Paragraph("Data:", font10));
+        dataSerdae.setPadding(5);
+        PdfPCell ProvidenciarAlteracaoNota = new PdfPCell(new Paragraph("Providenciar alteração da nota.", font10));
+        ProvidenciarAlteracaoNota.setPadding(5);
+        PdfPCell paraSerdae = new PdfPCell(new Paragraph("PARA:", fontBold));
+        paraSerdae.setPadding(5);
+        PdfPCell FuncResponsavel = new PdfPCell(new Paragraph("Funcionário responsável:", font10));
+        FuncResponsavel.setPadding(5);
+        PdfPCell ou = new PdfPCell(new Paragraph("OU", fontBold));
+        ou.setPadding(5);
+        PdfPCell seac = new PdfPCell(new Paragraph("Ao SEAC:  ", fontBold));
+        seac.setPadding(5);
+        PdfPCell dataSeac = new PdfPCell(new Paragraph("Data:", font10));
+        dataSeac.setPadding(5);
+        PdfPCell indeferido = new PdfPCell(new Paragraph("Indeferido por estar fora do prazo.", font10));
+        indeferido.setPadding(5);
+        PdfPCell funcionarioResponsavelSeac = new PdfPCell(new Paragraph("Funcionário responsável:", font10));
+        funcionarioResponsavelSeac.setPadding(5);
+
+        ou.setColspan(3);
+        ou.setHorizontalAlignment(Element.ALIGN_CENTER);
+        seac.setColspan(2);
+        indeferido.setColspan(2);
+
+        table9.addCell(serdae);
+        table9.addCell(deSerdae);
+        table9.addCell(dataSerdae);
+        table9.addCell(ProvidenciarAlteracaoNota);
+        table9.addCell(paraSerdae);
+        table9.addCell(FuncResponsavel);
+        table9.addCell(ou);
+        table9.addCell(seac);
+        table9.addCell(dataSeac);
+        table9.addCell(indeferido);
+        table9.addCell(funcionarioResponsavelSeac);
+
+        document.add(table9);
+
+        // -------------------------------------------------------//
+
+        //tabela 10
+
+        document.add(new Paragraph("   "));
+
+        PdfPTable table10 = new PdfPTable(2);
+        float[] columnWidths10 = {1f, 1f};
+        table10.setWidths(columnWidths10);
+        table10.setWidthPercentage(113);
+
+        PdfPCell seac2 = new PdfPCell(new Paragraph("Ao SEAC:  ", fontBold));
+        seac2.setPadding(5);
+        PdfPCell dataSeac2 = new PdfPCell(new Paragraph("Data:", font10));
+        dataSeac2.setPadding(5);
+        PdfPCell processadoConferido = new PdfPCell(new Paragraph("Processado e conferido.", font10));
+        processadoConferido.setPadding(5);
+        PdfPCell funcionarioResponsavelSeac2 = new PdfPCell(new Paragraph("Funcionário responsável:", font10));
+        funcionarioResponsavelSeac2.setPadding(5);
+
+        seac2.setColspan(2);
+        processadoConferido.setColspan(2);
+
+        table10.addCell(seac2);
+        table10.addCell(dataSeac2);
+        table10.addCell(processadoConferido);
+        table10.addCell(funcionarioResponsavelSeac2);
+
+        document.add(table10);
 
         // Fechar o documento
         document.close();
